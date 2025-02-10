@@ -7,6 +7,9 @@ from email.mime.text import MIMEText
 # Binance API URL
 BINANCE_URL = "https://api.binance.com/api/v3/klines"
 
+# Binance API Key
+API_KEY = "Br2WAi6ZFK9czcpCciyz4jCn9Fy0wiAqzL7P0XpB4aTdoPAGXFcjl8tLnIYMm70f"
+
 # Trading Pairs
 DEFAULT_PAIRS = ["XRPUSDT", "BTCUSDT", "SUIUSDT"]
 
@@ -38,10 +41,11 @@ def send_email(subject, body):
     except Exception as e:
         print(f"❌ Email sending failed: {e}")
 
-# Fetch historical candle data
+# Fetch historical candle data using API Key
 def fetch_candle_data(symbol, interval="15m", limit=500):
     url = f"{BINANCE_URL}?symbol={symbol}&interval={interval}&limit={limit}"
-    response = requests.get(url)
+    headers = {"X-MBX-APIKEY": API_KEY}  # Added API Key in headers
+    response = requests.get(url, headers=headers)
     data = response.json()
     
     if not data or "code" in data:
